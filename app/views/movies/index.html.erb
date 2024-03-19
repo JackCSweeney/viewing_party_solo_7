@@ -1,0 +1,7 @@
+<h1>Movies</h1>
+<% @movies.each do |movie| %>
+  <ul class="movie">
+  <li class="title"><%= link_to "#{movie[:title]}",  %></li>
+  <li class="vote_average"><%= movie[:vote_average] %></li>
+  </ul>
+<% end %>
