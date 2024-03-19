@@ -1,7 +1,8 @@
 <h1>Movies</h1>
 <% @movies.each do |movie| %>
   <ul class="movie">
-  <li class="title"><%= link_to "#{movie[:title]}",  %></li>
-  <li class="vote_average"><%= movie[:vote_average] %></li>
+  <li class="title"><%= link_to "#{movie.title}", user_movie_path(@user, movie.id) %></li>
+  <li class="vote_average"><%= movie.vote_average %></li>
   </ul>
 <% end %>
+<%= button_to "Return to Discover", user_discover_index_path(@user) %>

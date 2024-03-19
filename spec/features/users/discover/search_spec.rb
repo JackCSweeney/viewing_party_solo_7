@@ -19,7 +19,7 @@ RSpec.describe 'Movie Search', type: :feature do
       expect(page).to have_button("Search by Movie Title")      
     end
 
-    it 'can click on either the discover top rated movies button or fill out the search field with a movie title and search then be brought ' do
+    it 'can click on the discover top rated movies button and then be brought to the movies index' do
       json_response = File.read("spec/fixtures/search_by_top_rated.json")
 
       stub_request(:get, "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc").
@@ -37,25 +37,29 @@ RSpec.describe 'Movie Search', type: :feature do
       expect(page).to have_css(".movie", count: 20)
       # - Title (As a Link to the Movie Details page (see story #3))
       # - Vote Average of the movie
-      save_and_open_page
       within(first(".movie")) do
         expect(page).to have_css(".title")
+        expect(page).to have_link("Kung Fu Panda", href: "/users/#{@user_1.id}/movies/1011985")
         expect(page).to have_css(".vote_average")
       end
       # I should also see a button to return to the Discover Page.
-      expect(page).to have_button("Return to Discover", href: user_discover_index_path(@user_1))
+      expect(page).to have_button("Return to Discover")
+    end
 
-      visit user_discover_index_path(@user_1)
+    it 'can fill out the search field with a movie title and search then be brought to the movies index with all the movies that fit the keyword search' do
+      VCR.use_cassette("tmdb_title_search") do
+        visit user_discover_index_path(@user_1)
+        
+        fill_in "search", with: "Titanic"
+        click_on "Search by Movie Title"
 
-      fill_in "search", with: "Titanic"
-      click_on "Search by Movie Title"
+        expect(current_path).to eq("/users/#{@user_1.id}/movies")
 
-      expect(current_path).to eq("/users/#{@user_1.id}/movies")
-
-      expect(page).to have_css(".title", count: 1)
-      expect(page).to have_content("Titanic")
-      expect(page).to have_css(".vote_average", count: 1)
-      expect(page).to have_button("Return to Discover", href: user_discover_index_path(@user_1))
+        expect(page).to have_css(".title")
+        expect(page).to have_content("Titanic")
+        expect(page).to have_css(".vote_average")
+        expect(page).to have_button("Return to Discover")
+      end
     end
   end
 end
