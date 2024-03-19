@@ -1,4 +1,4 @@
-<%= button_to "Discover Top Rated Movies", user_movies_path(@user), method: :get %>
+<%= button_to "Discover Top Rated Movies", user_movies_path(@user), method: :get, params: {search: "top_rated"} %>
 <%= form_with url: user_movies_path(@user), method: :get, data: {turbo: false} do |form|%>
   <%= form.label "search", "Enter a Title or Keywords" %>
   <%= form.text_field "search" %><br>
