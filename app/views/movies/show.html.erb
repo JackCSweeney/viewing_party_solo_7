@@ -1,0 +1,20 @@
+<h1><%= @facade.movie.title %></h1>
+<%= button_to "Create Viewing Party" %>
+<%= button_to "Return to Discover", user_discover_index_path(@user)%>
+<p>Average Voter Rating: <%= @facade.movie.vote_average %></p>
+<p>Runtime: <%= @facade.movie.runtime / 60 %> hours <%= @facade.movie.runtime % 60 %> minutes</p>
+<p>Genre(s): <%= @facade.movie.genres.join(", ") %></p>
+<p>Description: <%= @facade.movie.description %></p>
+<p>Cast:</p>
+<ul>
+<% @facade.movie.cast.each do |character, actor| %>
+  <li><p><%= character %> - <%= actor %></p></li>
+<% end %>
+</ul>
+<p>Total Reviews: <%= @facade.movie.review_count %></p>
+<p>Reviewers:</p>
+<ol>
+<% @facade.movie.reviewers.each do |name, user_name| %>
+  <li><p>Author: <%= name %> - User Name: <%= user_name %></p></li>
+<% end %>
+</ol>
