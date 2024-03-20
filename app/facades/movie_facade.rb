@@ -1,32 +1,24 @@
 class MovieFacade
 
-  def initialize(search_param)
-    @search_param = search_param
+  def initialize(movie_id)
+    @movie_id = movie_id
   end
 
-  def movies
-    if @search_param == "top_rated"
-      conn = Faraday.new(url: "https://api.themoviedb.org") do |f|
-        f.params["api_key"] = Rails.application.credentials.tmdb[:key]
-      end
-
-      response = conn.get("/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc")
-      
-      json = JSON.parse(response.body, symbolize_names: true)
-      @movies = json[:results].map do |movie_data|
-        Movie.new(movie_data)
-      end
-    else
-      conn = Faraday.new(url: "https://api.themoviedb.org") do |f|
-        f.params["api_key"] = Rails.application.credentials.tmdb[:key]
-      end
-
-      response = conn.get("/3/search/movie?query=#{@search_param}&include_adult=false&include_video=false&language=en-US&page=1")
-
-      json = JSON.parse(response.body, symbolize_names: true)
-      @movies = json[:results].map do |movie_data|
-        Movie.new(movie_data)
-      end
+  def movie
+    conn = Faraday.new(url: "https://api.themoviedb.org") do |f|
+      f.params["api_key"] = Rails.application.credentials.tmdb[:key]
     end
+
+    response_1 = conn.get("/3/movie/#{@movie_id}/reviews?language=en-US&page=1")
+    response_2 = conn.get("/3/movie/#{@movie_id}/credits?language=en-US")
+    response_3 = conn.get("/3/movie/#{@movie_id}?language=en-US")
+
+    json_1 = JSON.parse(response_1.body, symbolize_names: true)
+    json_2 = JSON.parse(response_2.body, symbolize_names: true)
+    json_3 = JSON.parse(response_3.body, symbolize_names: true)
+
+    json = json_1.merge(json_2.merge(json_3))
+
+    @movie = Movie.new(json)
   end
 end
