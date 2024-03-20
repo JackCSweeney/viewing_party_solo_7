@@ -14,9 +14,9 @@ class Movie
     @runtime = movie_data[:runtime]
     @genres = movie_data[:genres]
     @description = movie_data[:overview]
-    @cast = movie_data[:cast] # this will come in as an array of hashes and each hash will come with some unneeded data so it will have to be broken down somewhere to extract just what is needed
+    @cast = movie_data[:cast]
     @review_count = movie_data[:total_results]
-    @reviewers = movie_data[:results] # this will come in as a hash with some unneeded data so it will have to be broken down somewhere to extract just what is needed
+    @reviewers = movie_data[:results]
   end
 
   def genres
