@@ -4,7 +4,7 @@ RSpec.describe ViewingParty, type: :model do
   before(:each) do
     @user_1 = User.create!(name: 'Sam', email: 'sam@email.com')
     @user_2 = User.create!(name: 'Tommy', email: 'tommy@email.com')
-    @party = ViewingParty.create!(date: "2023-12-01", start_time: "07:25", duration: 175, movie_duration: 132, movie_id: 1)
+    @party = ViewingParty.create!(date: "2023-12-01", start_time: "07:25", duration: 175, movie_duration: 132, movie_id: 1, guest_email_1: @user_1.email)
   
     UserParty.create!(user_id: @user_1.id, viewing_party_id: @party.id, host: true)
     UserParty.create!(user_id: @user_2.id, viewing_party_id: @party.id, host: false)
@@ -27,6 +27,16 @@ RSpec.describe ViewingParty, type: :model do
   describe "instance methods" do
     it "returns user that is hosting the party" do
       expect(@party.find_host).to eq (@user_1)
+    end
+
+    describe '#guests?' do
+      it 'returns true if any guest emails were included' do
+        expect(@party.guests?).to eq(true)
+
+        party_2 = ViewingParty.create!(date: "2023-12-01", start_time: "07:25", duration: 175, movie_duration: 132, movie_id: 1)
+
+        expect(party_2.guests?).to eq(false)
+      end
     end
   end
 end

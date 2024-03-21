@@ -19,4 +19,8 @@ class ViewingParty < ApplicationRecord
       errors.add(:duration, "cannot be shorter than movie runtime")
     end
   end
+
+  def guests?
+    guest_email_1.present? || guest_email_2.present? || guest_email_3.present?
+  end
 end
