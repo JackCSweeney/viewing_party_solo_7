@@ -4,7 +4,6 @@ class MovieSearchService
     conn = Faraday.new(url: "https://api.themoviedb.org") do |f|
       f.params["api_key"] = Rails.application.credentials.tmdb[:key]
     end
-
   end
 
   def get_url(url)
