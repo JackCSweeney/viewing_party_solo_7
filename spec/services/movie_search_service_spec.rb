@@ -51,4 +51,26 @@ RSpec.describe MovieSearchService do
       expect(service.get_url("/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc")[:results].first).to have_key(:vote_average)
     end
   end
+
+  describe '#movies_by_title(title)' do
+    it 'returns movie data' do
+      VCR.use_cassette("tmdb_title_search") do
+        search = MovieSearchService.new.movies_by_title("Titanic")
+
+        expect(search).to be_a(Hash)
+        expect(search[:results]).to be_a(Array)
+        
+        movie_data = search[:results].first
+
+        expect(movie_data).to have_key(:title)
+        expect(movie_data[:title]).to be_a(String)
+        
+        expect(movie_data).to have_key(:vote_average)
+        expect(movie_data[:vote_average]).to be_a(Float)
+        
+        expect(movie_data).to have_key(:id)
+        expect(movie_data[:id]).to be_a(Integer)
+      end     
+    end
+  end
 end

@@ -16,4 +16,8 @@ class MovieSearchService
     get_url("/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc")
   end
 
+  def movies_by_title(title)
+    get_url("/3/search/movie?query=#{title}&include_adult=false&include_video=false&language=en-US&page=1")
+  end
+
 end
