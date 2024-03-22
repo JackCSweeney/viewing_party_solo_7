@@ -8,6 +8,7 @@ RSpec.describe MovieSearchFacade do
   end
 
   it 'can create movie objects from the string that is input during its instantiation and makes the correct API call when doing so and only returns 20 movies' do
+    VCR.turn_on!
     VCR.use_cassette("tmdb_title_search") do
       facade = MovieSearchFacade.new("Titanic")
       movies = facade.movies
@@ -23,5 +24,6 @@ RSpec.describe MovieSearchFacade do
       expect(movies.all?(Movie)).to eq(true)
       expect(movies.count).to eq(20)
     end
+    VCR.turn_off!
   end
 end

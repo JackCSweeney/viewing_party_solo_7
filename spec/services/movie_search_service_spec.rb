@@ -54,6 +54,7 @@ RSpec.describe MovieSearchService do
 
   describe '#movies_by_title(title)' do
     it 'returns movie data' do
+      VCR.turn_on!
       VCR.use_cassette("tmdb_title_search") do
         search = MovieSearchService.new.movies_by_title("Titanic")
 
@@ -70,7 +71,8 @@ RSpec.describe MovieSearchService do
         
         expect(movie_data).to have_key(:id)
         expect(movie_data[:id]).to be_a(Integer)
-      end     
+      end  
+      VCR.turn_off!   
     end
   end
 end
