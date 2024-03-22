@@ -53,7 +53,9 @@ RSpec.describe Movie do
       "url": "https://www.themoviedb.org/review/65f1a8ddfa4046012e1121b6"
       }],
       purchase_image_paths: ["here", "there"],
-      rental_image_paths: ["yonder", "hither"]
+      rental_image_paths: ["yonder", "hither"],
+      poster_path: "somewhere else",
+      release_date: "3/2/43"
     }
 
     @movie = Movie.new(movie_data)
@@ -72,6 +74,8 @@ RSpec.describe Movie do
     expect(@movie.reviewers).to eq({"Chris Sawin"=>"ChrisSawin"})
     expect(@movie.purchase_image_paths).to eq(["here", "there"])
     expect(@movie.rental_image_paths).to eq(["yonder", "hither"])
+    expect(@movie.poster_path).to eq("somewhere else")
+    expect(@movie.release_date).to eq("3/2/43")
   end
 
   it 'can return just the names of the genres in an array' do
