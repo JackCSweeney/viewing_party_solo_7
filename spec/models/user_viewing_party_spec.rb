@@ -21,6 +21,7 @@ RSpec.describe UserParty, type: :model do
         expect(user_parties).to be_a(Array)
         expect(user_parties.first).to be_a(UserParty)
         expect(user_parties.first.host).to eq(true)
+        expect(user_parties[1]).to be_a(UserParty)
         expect(user_parties[1].host).to eq(false)
       end
     end

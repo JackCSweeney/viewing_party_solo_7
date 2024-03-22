@@ -1,0 +1,17 @@
+<h1>New Viewing Party for: <%= @movie_facade.movie.title %></h1>
+<%= form_with url: user_movie_viewing_party_index_path(@user, @movie_facade.movie.id), method: :post, data: {turbo: false} do |form|%>
+  <%= form.hidden_field "movie_duration", value: @movie_facade.movie.runtime %>
+  <%= form.label "duration", "Party Duration" %>
+  <%= form.text_field "duration", value: @movie_facade.movie.runtime %><br>
+  <%= form.label "date", "Party Date" %>
+  <%= form.text_field "date" %><br>
+  <%= form.label "start_time", "Party Time" %>
+  <%= form.text_field "start_time" %><br>
+  <%= form.label "guest_email_1", "Guest Email Address (optional)" %>
+  <%= form.text_field "guest_email_1" %><br>
+  <%= form.label "guest_email_2", "Guest Email Address (optional)" %>
+  <%= form.text_field "guest_email_2" %><br>
+  <%= form.label "guest_email_3", "Guest Email Address (optional)" %>
+  <%= form.text_field "guest_email_3" %><br>
+  <%= form.submit "Create Viewing Party" %>
+<% end %>

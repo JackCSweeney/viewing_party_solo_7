@@ -5,7 +5,7 @@ class UserParty < ApplicationRecord
   belongs_to :user
 
   def self.create_user_parties(viewing_party, host_id)
-    guest_emails = [viewing_party[:guest_email_1], viewing_party[:guest_email_2], viewing_party[:guest_email_3]].compact
+    guest_emails = [viewing_party[:guest_email_1], viewing_party[:guest_email_2], viewing_party[:guest_email_3]].compact - [""]
 
     user_parties = []
 
@@ -17,7 +17,6 @@ class UserParty < ApplicationRecord
         user_parties << UserParty.create!({user_id: user.id, viewing_party_id: viewing_party.id, host: false})
       end
     end
-
     user_parties
   end
 end

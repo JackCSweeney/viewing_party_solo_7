@@ -5,32 +5,32 @@ RSpec.describe 'Movies Show Page', type: :feature do
     before(:each) do
       @user_1 = User.create!(name: 'Tommy', email: 'tommy@email.com')
 
-    json_response = File.read("spec/fixtures/kfp_reviews.json")
+      json_response = File.read("spec/fixtures/kfp_reviews.json")
 
-      stub_request(:get, "https://api.themoviedb.org/3/movie/1011985/reviews?language=en-US&page=1").
-        with(
-          query: {
-          'api_key'=> Rails.application.credentials.tmdb[:key]
-          }).
-        to_return(status: 200, body: json_response, headers: {})
+        stub_request(:get, "https://api.themoviedb.org/3/movie/1011985/reviews?language=en-US&page=1").
+          with(
+            query: {
+            'api_key'=> Rails.application.credentials.tmdb[:key]
+            }).
+          to_return(status: 200, body: json_response, headers: {})
 
-    json_response = File.read("spec/fixtures/kfp_credits.json")
+      json_response = File.read("spec/fixtures/kfp_credits.json")
 
-      stub_request(:get, "https://api.themoviedb.org/3/movie/1011985/credits?language=en-US").
-        with(
-          query: {
-          'api_key'=> Rails.application.credentials.tmdb[:key]
-          }).
-        to_return(status: 200, body: json_response, headers: {})
+        stub_request(:get, "https://api.themoviedb.org/3/movie/1011985/credits?language=en-US").
+          with(
+            query: {
+            'api_key'=> Rails.application.credentials.tmdb[:key]
+            }).
+          to_return(status: 200, body: json_response, headers: {})
 
-    json_response = File.read("spec/fixtures/kfp_details.json")
+      json_response = File.read("spec/fixtures/kfp_details.json")
 
-      stub_request(:get, "https://api.themoviedb.org/3/movie/1011985?language=en-US").
-        with(
-          query: {
-          'api_key'=> Rails.application.credentials.tmdb[:key]
-          }).
-        to_return(status: 200, body: json_response, headers: {})      
+        stub_request(:get, "https://api.themoviedb.org/3/movie/1011985?language=en-US").
+          with(
+            query: {
+            'api_key'=> Rails.application.credentials.tmdb[:key]
+            }).
+          to_return(status: 200, body: json_response, headers: {})      
     end
 
     it 'can display a movies title, vote average, runtime, genres, summary, first 10 cast members,count of reviews, each reviews author and info' do
