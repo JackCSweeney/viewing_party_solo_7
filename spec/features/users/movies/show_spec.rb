@@ -84,7 +84,6 @@ RSpec.describe 'Movies Show Page', type: :feature do
       expect(page).to have_link("Get Similar Movies", href: user_movie_similar_index_path(@user_1, 1011985))
       # When I click that link
       click_on "Get Similar Movies"
-      save_and_open_page
       # I am taken to the Similar Movies page (`/users/:user_id/movies/:movie_id/similar`)
       expect(current_path).to eq(user_movie_similar_index_path(@user_1, 1011985))
       # Where I see a list of movies that are similar to the one provided by :movie_id, 

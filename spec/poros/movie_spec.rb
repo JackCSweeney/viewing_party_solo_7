@@ -74,7 +74,7 @@ RSpec.describe Movie do
     expect(@movie.reviewers).to eq({"Chris Sawin"=>"ChrisSawin"})
     expect(@movie.purchase_image_paths).to eq(["here", "there"])
     expect(@movie.rental_image_paths).to eq(["yonder", "hither"])
-    expect(@movie.poster_path).to eq("somewhere else")
+    expect(@movie.poster_path).to eq("https://image.tmdb.org/t/p/w500somewhere else")
     expect(@movie.release_date).to eq("3/2/43")
   end
 
