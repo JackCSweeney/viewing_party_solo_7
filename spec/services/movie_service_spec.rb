@@ -36,16 +36,36 @@ RSpec.describe MovieService do
         'api_key'=> Rails.application.credentials.tmdb[:key]
       }).
     to_return(status: 200, body: json_response, headers: {})
+
+    json_response = File.read("spec/fixtures/titanic_providers.json")
+
+    stub_request(:get, "https://api.themoviedb.org/3/movie/597/watch/providers").
+    with(
+      query: {
+        'api_key'=> Rails.application.credentials.tmdb[:key]
+      }).
+    to_return(status: 200, body: json_response, headers: {})
+
+    jpeg_response = File.read("spec/fixtures/response_apple.jpeg")
+
+    stub_request(:get, "https://image.tmdb.org/t/p/w500/9ghgSC0MA082EL6HLCW3GalykFD.jpg").
+    with(
+      query: {
+        'api_key'=> Rails.application.credentials.tmdb[:key]
+      }).
+    to_return(status: 200, body: jpeg_response, headers: {})
+
+    @service = MovieService.new
   end
   
   describe 'complete_movie_data(movie_id)' do
     it 'returns movie data about the movie associated with the give movie_id' do
-      service = MovieService.new
-
-      expect(service.complete_movie_data(1011985)).to be_a(Hash)
-      expect(service.complete_movie_data(1011985)[:results]).to be_a(Array)
       
-      movie_data = service.complete_movie_data(1011985)
+
+      expect(@service.complete_movie_data(1011985)).to be_a(Hash)
+      expect(@service.complete_movie_data(1011985)[:results]).to be_a(Array)
+      
+      movie_data = @service.complete_movie_data(1011985)
 
       expect(movie_data).to have_key(:title)
       expect(movie_data[:title]).to be_a(String)
@@ -78,25 +98,50 @@ RSpec.describe MovieService do
 
   describe '#conn' do
     it 'connects to the correct base URL and contains a api_key' do
-      service = MovieService.new
-
-      expect(service.conn).to be_a(Faraday::Connection)
-      expect(service.conn.params[:api_key]).not_to be(nil)
+      expect(@service.conn).to be_a(Faraday::Connection)
+      expect(@service.conn.params[:api_key]).not_to be(nil)
     end
   end
 
   describe '#get_url(url)' do
     it 'returns the parsed JSON data from the get request to the input url' do
-      service = MovieSearchService.new
-
       # Reviews End Point
-      expect(service.get_url("https://api.themoviedb.org/3/movie/1011985/reviews?language=en-US&page=1")).to be_a(Hash)
+      expect(@service.get_url("https://api.themoviedb.org/3/movie/1011985/reviews?language=en-US&page=1")).to be_a(Hash)
       
       # Credits End Point
-      expect(service.get_url("https://api.themoviedb.org/3/movie/1011985/credits?language=en-US")).to be_a(Hash)
+      expect(@service.get_url("https://api.themoviedb.org/3/movie/1011985/credits?language=en-US")).to be_a(Hash)
 
       # Details End Point
-      expect(service.get_url("https://api.themoviedb.org/3/movie/1011985?language=en-US")).to be_a(Hash)
+      expect(@service.get_url("https://api.themoviedb.org/3/movie/1011985?language=en-US")).to be_a(Hash)
+    end
+  end
+
+  describe '#movie_purchase_location_logos(movie_id)' do
+    xit 'returns a hash with image paths for logos to purchase the movie' do
+      VCR.turn_off!
+      expect(@service.movie_purchase_location_logos(597)).to be_a(Array)
+      expect(@service.movie_purchase_location_logos(597).first).to be_a(String)
+    end
+  end
+
+  describe '#provider_data(movie_id)' do
+    it 'returns provider data about where to purchase and rent the given movie' do
+      expect(@service.provider_data(597)).to be_a(Hash)
+      expect(@service.provider_data(597)[:results][:CA]).to be_a(Hash)
+      expect(@service.provider_data(597)[:results][:CA][:buy]).to be_a(Array)
+      expect(@service.provider_data(597)[:results][:CA][:buy].first).to be_a(Hash)
+    end
+  end
+
+  describe '#purchase_logo_urls(movie_id)' do
+    it 'returns an array of urls of logos of where to purchase the movie' do 
+      expect(@service.purchase_logo_urls(597).first).to be_a(String)
+    end
+  end
+
+  describe '#rental_logo_urls(movie_id)' do
+    it 'returns an array of urls of logos of where to purchase the movie' do
+      expect(@service.rental_logo_urls(597).first).to be_a(String)
     end
   end
 end
