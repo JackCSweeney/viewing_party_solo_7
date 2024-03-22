@@ -146,4 +146,16 @@ RSpec.describe MovieService do
       expect(@service.rental_logo_urls(597).first).to be_a(String)
     end
   end
+
+  describe '#get_similar_movies(movie_id)' do
+    it 'returns an array of movie objects with the needed attributes' do
+      expect(@service.get_similar_movies(1011985)[:results]).to be_a(Array)
+      expect(@service.get_similar_movies(1011985)[:results].first).to be_a(Hash)
+      expect(@service.get_similar_movies(1011985)[:results].first[:title]).not_to eq(nil)
+      expect(@service.get_similar_movies(1011985)[:results].first[:overview]).not_to eq(nil)
+      expect(@service.get_similar_movies(1011985)[:results].first[:release_date]).not_to eq(nil)
+      expect(@service.get_similar_movies(1011985)[:results].first[:poster_path]).not_to eq(nil)
+      expect(@service.get_similar_movies(1011985)[:results].first[:vote_average]).not_to eq(nil)
+    end
+  end
 end
