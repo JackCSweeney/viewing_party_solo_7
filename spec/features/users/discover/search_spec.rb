@@ -47,6 +47,7 @@ RSpec.describe 'Movie Search', type: :feature do
     end
 
     it 'can fill out the search field with a movie title and search then be brought to the movies index with all the movies that fit the keyword search' do
+      VCR.turn_on!
       VCR.use_cassette("tmdb_title_search") do
         visit user_discover_index_path(@user_1)
         
@@ -60,6 +61,7 @@ RSpec.describe 'Movie Search', type: :feature do
         expect(page).to have_css(".vote_average")
         expect(page).to have_button("Return to Discover")
       end
+      VCR.turn_off!
     end
   end
 end

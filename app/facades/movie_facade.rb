@@ -5,20 +5,20 @@ class MovieFacade
   end
 
   def movie
-    conn = Faraday.new(url: "https://api.themoviedb.org") do |f|
-      f.params["api_key"] = Rails.application.credentials.tmdb[:key]
-    end
+    service = MovieService.new
 
-    response_1 = conn.get("/3/movie/#{@movie_id}/reviews?language=en-US&page=1")
-    response_2 = conn.get("/3/movie/#{@movie_id}/credits?language=en-US")
-    response_3 = conn.get("/3/movie/#{@movie_id}?language=en-US")
-
-    json_1 = JSON.parse(response_1.body, symbolize_names: true)
-    json_2 = JSON.parse(response_2.body, symbolize_names: true)
-    json_3 = JSON.parse(response_3.body, symbolize_names: true)
-
-    json = json_1.merge(json_2.merge(json_3))
+    json = service.complete_movie_data(@movie_id)
 
     @movie = Movie.new(json)
+  end
+
+  def where_to_buy
+    service = MovieService.new
+    where_to_buy = service.movie_purchase_location_logos(@movie_id)
+  end
+
+  def where_to_rent
+    service = MovieService.new
+    where_to_buy = service.movie_rental_location_logos(@movie_id)
   end
 end

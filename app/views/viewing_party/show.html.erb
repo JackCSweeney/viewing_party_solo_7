@@ -1,0 +1,19 @@
+<h1>Viewing Party for: <%= @movie_facade.movie.title %></h1>
+<h3>When: <%= @viewing_party.date %> at <%= @viewing_party.start_time %></h3>
+<p>Host: <%= @viewing_party.find_host.name %></p>
+
+<section class="where_to_buy">
+<h2>Where to buy this movie:</h2>
+  <% @movie_facade.where_to_buy.each do |image_path| %>
+    <%= image_tag image_path %>
+  <% end %>
+</section>
+
+<section class="where_to_rent">
+  <h2>Where to rent this movie:</h2>
+    <% @movie_facade.where_to_rent.each do |image_path| %>
+      <%= image_tag image_path%>
+    <% end %>
+</section>
+
+<h3>Buy/Rent data provided by JustWatch</h3>

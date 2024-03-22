@@ -5,7 +5,9 @@ class Movie
               :id,
               :runtime,
               :description,
-              :review_count
+              :review_count,
+              :purchase_image_paths,
+              :rental_image_paths
 
   def initialize(movie_data)
     @title = movie_data[:title]
@@ -17,6 +19,8 @@ class Movie
     @cast = movie_data[:cast]
     @review_count = movie_data[:total_results]
     @reviewers = movie_data[:results]
+    @purchase_image_paths = movie_data[:purchase_image_paths]
+    @rental_image_paths = movie_data[:rental_image_paths]
   end
 
   def genres
