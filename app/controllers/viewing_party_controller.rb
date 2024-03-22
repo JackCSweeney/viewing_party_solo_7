@@ -1,6 +1,4 @@
 class ViewingPartyController < ApplicationController
-  def index
-  end
 
   def new
     @user = User.find(params[:user_id])
@@ -19,17 +17,21 @@ class ViewingPartyController < ApplicationController
   end
 
   def show
+    @viewing_party = ViewingParty.find(params[:id])
+    @movie_facade = MovieFacade.new(params[:movie_id])
   end
 
   private
     def host_viewing_party_params
-      params.permit(:duration,
+      params.permit(
+                    :duration,
                     :date,
                     :start_time,
                     :movie_id,
                     :movie_duration,
                     :guest_email_1,
                     :guest_email_2,
-                    :guest_email_3)
+                    :guest_email_3
+                    )
     end
 end
