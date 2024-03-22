@@ -55,13 +55,20 @@ RSpec.describe MovieService do
       }).
     to_return(status: 200, body: jpeg_response, headers: {})
 
+    json_response = File.read("spec/fixtures/kfp_similar.json")
+
+    stub_request(:get, "https://api.themoviedb.org/3/movie/1011985/similar").
+      with(
+      query: {
+          'api_key'=> Rails.application.credentials.tmdb[:key]
+      }).
+      to_return(status: 200, body: json_response, headers: {})
+
     @service = MovieService.new
   end
   
   describe 'complete_movie_data(movie_id)' do
     it 'returns movie data about the movie associated with the give movie_id' do
-      
-
       expect(@service.complete_movie_data(1011985)).to be_a(Hash)
       expect(@service.complete_movie_data(1011985)[:results]).to be_a(Array)
       
@@ -144,6 +151,18 @@ RSpec.describe MovieService do
   describe '#rental_logo_urls(movie_id)' do
     it 'returns an array of urls of logos of where to purchase the movie' do
       expect(@service.rental_logo_urls(597).first).to be_a(String)
+    end
+  end
+
+  describe '#get_similar_movies(movie_id)' do
+    it 'returns an array of movie data with the needed attributes' do
+      expect(@service.get_similar_movies(1011985)[:results]).to be_a(Array)
+      expect(@service.get_similar_movies(1011985)[:results].first).to be_a(Hash)
+      expect(@service.get_similar_movies(1011985)[:results].first[:title]).not_to eq(nil)
+      expect(@service.get_similar_movies(1011985)[:results].first[:overview]).not_to eq(nil)
+      expect(@service.get_similar_movies(1011985)[:results].first[:release_date]).not_to eq(nil)
+      expect(@service.get_similar_movies(1011985)[:results].first[:poster_path]).not_to eq(nil)
+      expect(@service.get_similar_movies(1011985)[:results].first[:vote_average]).not_to eq(nil)
     end
   end
 end

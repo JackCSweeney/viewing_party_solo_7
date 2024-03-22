@@ -48,6 +48,15 @@ RSpec.describe MovieFacade do
   
     stub_request(:get, "https://image.tmdb.org/t/p/w500/9ghgSC0MA082EL6HLCW3GalykFD.jpg").
       to_return(status: 200, body: jpeg_response, headers: {})
+
+    json_response = File.read("spec/fixtures/kfp_similar.json")
+
+    stub_request(:get, "https://api.themoviedb.org/3/movie/1011985/similar").
+      with(
+      query: {
+          'api_key'=> Rails.application.credentials.tmdb[:key]
+      }).
+      to_return(status: 200, body: json_response, headers: {})
   end
 
   it 'can return a movie object with the id it is passed through the initialize method' do            
@@ -66,5 +75,19 @@ RSpec.describe MovieFacade do
     expect(facade.where_to_buy.first).to be_a(String)
     expect(facade.where_to_rent).to be_a(Array)
     expect(facade.where_to_rent.first).to be_a(String)
+  end
+
+  it 'can return a list of movies that are similar to the original movie it was made with' do
+    facade = MovieFacade.new(1011985)
+
+    expect(facade.similar_movies).to be_a(Array)
+    expect(facade.similar_movies.first).to be_a(Movie)
+    expect(facade.similar_movies.first.title).not_to eq(nil)
+  end
+
+  it 'can return a movie with movie data based on the movie id passed in via method rather than attribute' do
+    facade = MovieFacade.new
+
+    expect(facade.viewing_party_movie(1011985)).to be_a(Movie)
   end
 end

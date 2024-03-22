@@ -1,18 +1,47 @@
 <h1><%= "#{@user.name}'s Dashboard" %></h1><br>
 
-<section class="viewing_parties">
-  <% @user.viewing_parties.each do |party| %>
-    <div class="viewing_party">
-         Party Time: <%= party.date %> at <%= party.start_time %><br>
-         Host: <%= party.find_host.name %><br>
-         Who's Coming? <br/>
+<h2>Parties You're Hosting</h2>
+<% @user.viewing_parties.each do |party| %>
+  <% if party.find_host == @user %>
+    <section class="host">
+      <%= image_tag @facade.viewing_party_movie(party.movie_id).poster_path %><br>
+      <p>Movie Title: <%= link_to @facade.viewing_party_movie(party.movie_id).title, user_movie_path(@user, party.movie_id) %></p>
+      <p>Party Time: <%= party.date %> at <%= party.start_time %></p><br>
+      <p>Host: <%= party.find_host.name %></p><br>
+      <p>Who's Coming? <br/>
 
-         <ol>
-            <% party.users.each do |attendee| %>
-               <li><%= attendee.name %> </li>
-            <% end %>
-         </ol>
-
-    </div><br>
+      <ol>
+        <% party.users.each do |attendee| %>
+          <% if attendee == @user %>
+            <li class="bold_user"><b><%= attendee.name %></b></li>
+          <% else %>
+            <li><%= attendee.name %></li>
+          <% end %>
+        <% end %>
+      </ol></p>
+    </section>
   <% end %>
-</section>
+<% end %>
+
+<h2>Parties You're a Guest</h2>
+<% @user.viewing_parties.each do |party| %>
+  <% if party.find_host != @user %>
+    <section class="guest">
+      <%= image_tag @facade.viewing_party_movie(party.movie_id).poster_path %><br>
+      Movie Title: <%= link_to @facade.viewing_party_movie(party.movie_id).title, user_movie_path(@user, party.movie_id) %>
+      Party Time: <%= party.date %> at <%= party.start_time %><br>
+      Host: <%= party.find_host.name %><br>
+      Who's Coming? <br/>
+
+      <ol>
+        <% party.users.each do |attendee| %>
+          <% if attendee == @user %>
+            <li class="bold_user"><b><%= attendee.name %></b></li>
+          <% else %>
+            <li><%= attendee.name %></li>
+          <% end %>
+        <% end %>
+      </ol>
+    </section>
+  <% end %>
+<% end %>

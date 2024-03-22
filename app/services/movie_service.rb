@@ -46,4 +46,8 @@ class MovieService
       provider[:logo_path]
     end
   end
+
+  def get_similar_movies(movie_id)
+    get_url("/3/movie/#{movie_id}/similar")
+  end
 end
