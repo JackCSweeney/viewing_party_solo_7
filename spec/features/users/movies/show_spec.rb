@@ -59,7 +59,10 @@ RSpec.describe 'Movies Show Page', type: :feature do
       # - Count of total reviews
       expect(page).to have_content("Total Reviews: 1")
       # - Each review's author and information
-      expect(page).to have_content("Reviewers:\nAuthor: Chris Sawin - User Name: ChrisSawin")      
+      expect(page).to have_content("Reviewers:\nAuthor: Chris Sawin - User Name: ChrisSawin")
+      
+      click_on "Create Viewing Party"
+      expect(current_path).to eq(new_user_movie_viewing_party_path(@user_1, 1011985))
     end
   end
 end
