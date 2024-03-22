@@ -14,11 +14,19 @@ class MovieFacade
 
   def where_to_buy
     service = MovieService.new
-    where_to_buy = service.movie_purchase_location_logos(@movie_id)
+    service.movie_purchase_location_logos(@movie_id)
   end
 
   def where_to_rent
     service = MovieService.new
-    where_to_buy = service.movie_rental_location_logos(@movie_id)
+    service.movie_rental_location_logos(@movie_id)
+  end
+
+  def similar_movies
+    service = MovieService.new
+    json = service.get_similar_movies(@movie_id)
+    json[:results].map do |movie_data|
+      Movie.new(movie_data)
+    end
   end
 end
