@@ -31,7 +31,6 @@ class MovieFacade
   end
 
   def viewing_party_movie(movie_id)
-    # require 'pry' ; binding.pry
     service = MovieService.new
     json = service.complete_movie_data(movie_id)
     Movie.new(json)

@@ -69,8 +69,6 @@ RSpec.describe MovieService do
   
   describe 'complete_movie_data(movie_id)' do
     it 'returns movie data about the movie associated with the give movie_id' do
-      
-
       expect(@service.complete_movie_data(1011985)).to be_a(Hash)
       expect(@service.complete_movie_data(1011985)[:results]).to be_a(Array)
       
@@ -157,7 +155,7 @@ RSpec.describe MovieService do
   end
 
   describe '#get_similar_movies(movie_id)' do
-    it 'returns an array of movie objects with the needed attributes' do
+    it 'returns an array of movie data with the needed attributes' do
       expect(@service.get_similar_movies(1011985)[:results]).to be_a(Array)
       expect(@service.get_similar_movies(1011985)[:results].first).to be_a(Hash)
       expect(@service.get_similar_movies(1011985)[:results].first[:title]).not_to eq(nil)
