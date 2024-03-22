@@ -1,6 +1,6 @@
 class MovieFacade
 
-  def initialize(movie_id)
+  def initialize(movie_id = '')
     @movie_id = movie_id
   end
 
@@ -28,5 +28,12 @@ class MovieFacade
     json[:results].map do |movie_data|
       Movie.new(movie_data)
     end
+  end
+
+  def viewing_party_movie(movie_id)
+    # require 'pry' ; binding.pry
+    service = MovieService.new
+    json = service.complete_movie_data(movie_id)
+    Movie.new(json)
   end
 end

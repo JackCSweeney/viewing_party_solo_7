@@ -84,4 +84,10 @@ RSpec.describe MovieFacade do
     expect(facade.similar_movies.first).to be_a(Movie)
     expect(facade.similar_movies.first.title).not_to eq(nil)
   end
+
+  it 'can return a movie with movie data based on the movie id passed in via method rather than attribute' do
+    facade = MovieFacade.new
+
+    expect(facade.viewing_party_movie(1011985)).to be_a(Movie)
+  end
 end
