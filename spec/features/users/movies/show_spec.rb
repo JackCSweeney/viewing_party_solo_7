@@ -30,10 +30,20 @@ RSpec.describe 'Movies Show Page', type: :feature do
             query: {
             'api_key'=> Rails.application.credentials.tmdb[:key]
             }).
-          to_return(status: 200, body: json_response, headers: {})      
+          to_return(status: 200, body: json_response, headers: {})
+          
+      json_response = File.read("spec/fixtures/kfp_similar.json")
+
+      stub_request(:get, "https://api.themoviedb.org/3/movie/1011985/similar").
+        with(
+        query: {
+            'api_key'=> Rails.application.credentials.tmdb[:key]
+        }).
+        to_return(status: 200, body: json_response, headers: {})
     end
 
     it 'can display a movies title, vote average, runtime, genres, summary, first 10 cast members,count of reviews, each reviews author and info' do
+      VCR.turn_off!
       # As a user, When I visit a movie's detail page (`/users/:user_id/movies/:movie_id`) where :id is a valid user id,
       visit "/users/#{@user_1.id}/movies/1011985"
       # I should see
@@ -63,6 +73,31 @@ RSpec.describe 'Movies Show Page', type: :feature do
       
       click_on "Create Viewing Party"
       expect(current_path).to eq(new_user_movie_viewing_party_path(@user_1, 1011985))
+    end
+
+    it 'can visit the movie show page and see a link to see similar movies that takes them to a similar movies page and displays title, overvie, release date, poster image, and vote average of other similar movies' do
+      VCR.turn_off!
+      # As a user, 
+      # When I visit a Movie Details page (`/users/:user_id/movies/:movie_id`),
+      visit "/users/#{@user_1.id}/movies/1011985"
+      # I see a link for "Get Similar Movies"
+      expect(page).to have_link("Get Similar Movies", href: user_movie_similar_index_path(@user_1, 1011985))
+      # When I click that link
+      click_on "Get Similar Movies"
+      # I am taken to the Similar Movies page (`/users/:user_id/movies/:movie_id/similar`)
+      expect(current_path).to eq(user_movie_similar_index_path(@user_1, 1011985))
+      # Where I see a list of movies that are similar to the one provided by :movie_id, 
+      # which includes the similar movies': 
+      # - Title
+      expect(page).to have_css(".title")
+      # - Overview
+      expect(page).to have_css(".description")
+      # - Release Date
+      expect(page).to have_css(".release_date")
+      # - Poster image
+      expect(page).to have_css(".img")
+      # - Vote Average
+      expect(page).to have_css(".vote_average")
     end
   end
 end

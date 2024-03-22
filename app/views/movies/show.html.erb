@@ -18,3 +18,4 @@
   <li><p>Author: <%= name %> - User Name: <%= user_name %></p></li>
 <% end %>
 </ol>
+<%= link_to 'Get Similar Movies', user_movie_similar_index_path(@user, @facade.movie.id) %>

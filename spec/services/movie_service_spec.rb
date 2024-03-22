@@ -55,6 +55,15 @@ RSpec.describe MovieService do
       }).
     to_return(status: 200, body: jpeg_response, headers: {})
 
+    json_response = File.read("spec/fixtures/kfp_similar.json")
+
+    stub_request(:get, "https://api.themoviedb.org/3/movie/1011985/similar").
+      with(
+      query: {
+          'api_key'=> Rails.application.credentials.tmdb[:key]
+      }).
+      to_return(status: 200, body: json_response, headers: {})
+
     @service = MovieService.new
   end
   

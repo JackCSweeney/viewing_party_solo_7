@@ -1,0 +1,8 @@
+<h1>Similar Movies to: <%= @facade.movie.title %></h1>
+<% @facade.similar_movies.each do |movie| %>
+  <li class="title"><%= movie.title %></li>
+  <li class="description"><%= movie.description %></li>
+  <li class="release_date"><%= movie.release_date %></li>
+  <li class="img"><%= image_tag movie.poster_path %></li>
+  <li class="vote_average"><%= movie.vote_average %></li>
+<% end %>
