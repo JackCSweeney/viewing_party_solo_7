@@ -23,4 +23,8 @@ class ViewingParty < ApplicationRecord
   def guests?
     guest_email_1.present? || guest_email_2.present? || guest_email_3.present?
   end
+
+  def make_user_parties(host_id)
+    UserParty.create_user_parties(self, host_id)
+  end
 end
