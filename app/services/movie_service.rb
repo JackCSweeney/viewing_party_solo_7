@@ -19,31 +19,19 @@ class MovieService
     review_data.merge(credits_data.merge(details_data))
   end
 
-  def image_conn
-    conn = Faraday.new(url: "https://image.tmdb.org") do |f|
-      f.params["api_key"] = Rails.application.credentials.tmdb[:key]
-    end
-  end
-
   def provider_data(movie_id)
     get_url("/3/movie/#{movie_id}/watch/providers")
   end
 
-  def get_image_url(url)
-    response = image_conn.get(url)
-    # require 'pry' ; binding.pry
-    JSON.parse(response.body)
-  end
-
   def movie_purchase_location_logos(movie_id)
     purchase_logo_urls(movie_id).map do |url|
-      get_image_url("/t/p/w500#{url}")
+      "https://image.tmdb.org/t/p/w500#{url}"
     end
   end
 
   def movie_rental_location_logos(movie_id)
     rental_logo_urls(movie_id).map do |url|
-      get_image_url("/t/p/w500#{url}")
+      "https://image.tmdb.org/t/p/w500#{url}"
     end
   end
 
@@ -58,5 +46,4 @@ class MovieService
       provider[:logo_path]
     end
   end
-
 end

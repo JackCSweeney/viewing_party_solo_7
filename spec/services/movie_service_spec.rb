@@ -117,8 +117,10 @@ RSpec.describe MovieService do
   end
 
   describe '#movie_purchase_location_logos(movie_id)' do
-    xit 'returns a hash with image paths for logos to purchase the movie' do
+    it 'returns a hash with image paths for logos to purchase the movie' do
       VCR.turn_off!
+      WebMock.allow_net_connect!
+      
       expect(@service.movie_purchase_location_logos(597)).to be_a(Array)
       expect(@service.movie_purchase_location_logos(597).first).to be_a(String)
     end
