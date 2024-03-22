@@ -23,7 +23,7 @@ class Movie
     @reviewers = movie_data[:results]
     @purchase_image_paths = movie_data[:purchase_image_paths]
     @rental_image_paths = movie_data[:rental_image_paths]
-    @poster_path = movie_data[:poster_path]
+    @poster_path = "https://image.tmdb.org/t/p/w500#{movie_data[:poster_path]}"
     @release_date = movie_data[:release_date]
   end
 
