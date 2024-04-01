@@ -16,14 +16,30 @@ RSpec.describe 'User Login', type: :feature do
       click_link "Log In"
       # I'm taken to a Log In page ('/login') where I can input my unique email and password.
       expect(current_path).to eq("/login")
-      expect(page).to have_field("user_email")
-      expect(page).to have_field("user_password")
+      expect(page).to have_field("email")
+      expect(page).to have_field("password")
       # When I enter my unique email and correct password
-      fill_in "user_email", with: @user_1.email
-      fill_in "user_password", with: @user_1.password
+      fill_in "email", with: @user_1.email
+      fill_in "password", with: @user_1.password
       click_on "Log In"
       # I'm taken to my dashboard page
       expect(current_path).to eq(user_path(@user_1))
+    end
+
+    # User Story 4
+    it 'will not log a user in if the credentials given are invalid' do
+      # As a registered user when I visit the landing page `/`
+      visit "/"
+      # And click on the link to go to my dashboard
+      click_on "Log In"
+      # And fail to fill in my correct credentials 
+      fill_in "email", with: @user_1.email
+      fill_in "password", with: "badpassword"
+      click_on "Log In"
+      # I'm taken back to the Log In page
+      expect(current_path).to eq(login_path)
+      # And I can see a flash message telling me that I entered incorrect credentials. 
+      expect(page).to have_content("Incorrect email or password")
     end
   end
 end
