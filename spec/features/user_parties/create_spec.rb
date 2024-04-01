@@ -30,8 +30,8 @@ RSpec.describe 'User Parties Create', type: :feature do
           }).
         to_return(status: 200, body: json_response, headers: {})  
 
-      @user_1 = User.create!(name: 'Tommy', email: 'tommy@email.com')
-      @user_2 = User.create!(name: 'Jack', email: 'jack@email.com')
+      @user_1 = User.create!(name: 'Tommy', email: 'tommy@email.com', password: "password1", password_confirmation: "password1")
+      @user_2 = User.create!(name: 'Jack', email: 'jack@email.com', password: "password1", password_confirmation: "password1")
       
       visit new_user_movie_viewing_party_path(@user_1, 1011985)
     end
