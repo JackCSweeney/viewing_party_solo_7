@@ -27,3 +27,7 @@ When you run `bundle exec rspec`, you should have 26 passing tests (both feature
 - Rails 7.1.2
 
 Example wireframes to follow are found [here](https://backend.turing.edu/module3/projects/viewing_party_solo/wireframes)
+
+
+Notes for refactoring:
+  - Could create poros for provider, nested in providers then make those providers an attribute of a movie object, so each movie holds onto its on provider information
