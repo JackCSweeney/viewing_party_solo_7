@@ -16,7 +16,7 @@ RSpec.describe 'User Registration Form' do
       fill_in 'user_email', with: "jack@email.com"
       fill_in 'user_password', with: "password1"
       fill_in 'user_password_confirmation', with: "password1"
-      click_on 'Save'
+      click_on 'Create New User'
       # I'm taken to my dashboard page `/users/:id`
       id = User.last.id
       expect(current_path).to eq("/users/#{id}")
