@@ -102,6 +102,40 @@ RSpec.describe 'Create New User', type: :feature do
       expect(page).to have_content('Email is invalid')
     end
 
-    
+    # User Story 1
+    it 'can register a new user from the registration path' do
+      # As a visitor When I visit `/register`
+      visit '/register'
+      # I see a form to fill in my name, email, password, and password confirmation.
+      expect(page).to have_field('user_name')
+      expect(page).to have_field('user_email')
+      expect(page).to have_field('user_password')
+      expect(page).to have_field('user_password_confirmation')
+      # When I fill in that form with my name, email, and matching passwords,
+      fill_in 'user_name', with: "Jack"
+      fill_in 'user_email', with: "jack@email.com"
+      fill_in 'user_password', with: "password1"
+      fill_in 'user_password_confirmation', with: "password1"
+      click_on 'Create New User'
+      # I'm taken to my dashboard page `/users/:id`
+      id = User.last.id
+      expect(current_path).to eq("/users/#{id}")
+    end
+
+    # User Story 2
+    it 'will not register a user if the password and password confirmation do not match' do
+      # As a visitor When I visit `/register`
+      visit '/register'
+      # and I fail to fill in my name, unique email, OR matching passwords,
+      fill_in 'user_name', with: "Jack"
+      fill_in 'user_email', with: "jack@email.com"
+      fill_in 'user_password', with: "password1"
+      fill_in 'user_password_confirmation', with: "password2"
+      click_on 'Create New User'
+      # I'm taken back to the `/register` page
+      expect(current_path).to eq("/register")
+      # and a flash message pops up, telling me what went wrong
+      expect(page).to have_content("Password confirmation doesn't match Password")
+    end    
   end
 end
