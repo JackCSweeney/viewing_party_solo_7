@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe 'Create New User', type: :feature do
   describe 'When user visits "/register"' do
     before(:each) do
-      @user = User.create!(name: 'Tommy', email: 'tommy@email.com', password: "password1", password_confirmation: "password1")
-      @user = User.create!(name: 'Sam', email: 'sam@email.com', password: "password1", password_confirmation: "password1")
+      @user_1 = User.create!(name: 'Tommy', email: 'tommy@email.com', password: "password1", password_confirmation: "password1")
+      @user_2 = User.create!(name: 'Sam', email: 'sam@email.com', password: "password1", password_confirmation: "password1")
 
       visit register_user_path
     end
