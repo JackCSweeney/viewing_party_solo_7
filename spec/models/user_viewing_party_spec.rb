@@ -12,8 +12,8 @@ RSpec.describe UserParty, type: :model do
   describe 'class methods' do
     describe 'self.create_user_parties(viewing_party)' do
       it 'creates new user_parties' do
-        @user_1 = User.create!(name: 'Jack', email: 'jack@email.com')
-        @user_2 = User.create!(name: 'Tommy', email: 'tommy@email.com')
+        @user_1 = User.create!(name: 'Jack', email: 'jack@email.com', password: "password1", password_confirmation: "password1")
+        @user_2 = User.create!(name: 'Tommy', email: 'tommy@email.com', password: "password1", password_confirmation: "password1")
 
         viewing_party = ViewingParty.create!(date: "2023-12-01", start_time: "07:25", duration: 175, movie_duration: 132, movie_id: 1, guest_email_1: "jack@email.com")
         user_parties = UserParty.create_user_parties(viewing_party, @user_1.id)

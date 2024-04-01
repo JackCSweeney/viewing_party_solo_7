@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe 'Users Show Page', type: :feature do
   describe 'As a user' do
     before(:each) do
-      @user_1 = User.create!(name: 'Tommy', email: 'tommy@email.com')
-      @user_2 = User.create!(name: 'Jack', email: 'jack@email.com')
+      @user_1 = User.create!(name: 'Tommy', email: 'tommy@email.com', password: "password1", password_confirmation: "password1")
+      @user_2 = User.create!(name: 'Jack', email: 'jack@email.com', password: "password1", password_confirmation: "password1")
 
       json_response = File.read("spec/fixtures/kfp_reviews.json")
 

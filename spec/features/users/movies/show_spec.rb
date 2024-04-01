@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Movies Show Page', type: :feature do
   describe 'As a user' do
     before(:each) do
-      @user_1 = User.create!(name: 'Tommy', email: 'tommy@email.com')
+      @user_1 = User.create!(name: 'Tommy', email: 'tommy@email.com', password: "password1", password_confirmation: "password1")
 
       json_response = File.read("spec/fixtures/kfp_reviews.json")
 

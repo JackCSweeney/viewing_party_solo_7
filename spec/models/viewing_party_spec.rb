@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe ViewingParty, type: :model do
   before(:each) do
-    @user_1 = User.create!(name: 'Sam', email: 'sam@email.com')
-    @user_2 = User.create!(name: 'Tommy', email: 'tommy@email.com')
+    @user_1 = User.create!(name: 'Sam', email: 'sam@email.com', password: "password1", password_confirmation: "password1")
+    @user_2 = User.create!(name: 'Tommy', email: 'tommy@email.com', password: "password1", password_confirmation: "password1")
     @party = ViewingParty.create!(date: "2023-12-01", start_time: "07:25", duration: 175, movie_duration: 132, movie_id: 1, guest_email_1: @user_2.email)
   end
 

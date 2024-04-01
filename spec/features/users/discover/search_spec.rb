@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Movie Search', type: :feature do
   describe 'As a user' do
     before(:each) do
-      @user_1 = User.create!(name: 'Tommy', email: 'tommy@email.com')
+      @user_1 = User.create!(name: 'Tommy', email: 'tommy@email.com', password: "password1", password_confirmation: "password1")
 
       visit user_discover_index_path(@user_1)
     end
