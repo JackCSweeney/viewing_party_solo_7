@@ -4,10 +4,11 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
 
 
-  root "welcome#index"
+  root 'welcome#index'
   get '/register', to: 'users#new', as: 'register_user'
   get '/login', to: 'sessions#login_form'
   post '/login', to: 'sessions#create'
+  delete '/', to: 'sessions#destroy'
 
   resources :users, only: [:show, :create] do
     resources :discover, only: :index

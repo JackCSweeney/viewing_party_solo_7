@@ -9,7 +9,9 @@
       <li><%= link_to user.email, "users/#{user.id}" %></li>
    <% end %>
 </ul>
-<% unless @user %>
+<% if @user %>
+   <%= link_to "Log Out", "/", method: :delete %>
+<% else %>
    <%= button_to 'Create New User', register_user_path, method: :get, class: "btn btn-lg btn-outline-secondary" %><br>
    <%= link_to 'Log In', "/login" %><br>
 <% end %>
