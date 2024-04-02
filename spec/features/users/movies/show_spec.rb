@@ -5,6 +5,12 @@ RSpec.describe 'Movies Show Page', type: :feature do
     before(:each) do
       @user_1 = User.create!(name: 'Tommy', email: 'tommy@email.com', password: "password1", password_confirmation: "password1")
 
+      visit root_path
+      click_on "Log In"
+      fill_in "email", with: @user_1.email
+      fill_in "password", with: @user_1.password
+      click_on "Log In"
+
       json_response = File.read("spec/fixtures/kfp_reviews.json")
 
         stub_request(:get, "https://api.themoviedb.org/3/movie/1011985/reviews?language=en-US&page=1").

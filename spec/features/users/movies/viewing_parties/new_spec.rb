@@ -33,6 +33,12 @@ RSpec.describe 'Viewing Party New', type: :feature do
       @user_1 = User.create!(name: 'Tommy', email: 'tommy@email.com', password: "password1", password_confirmation: "password1")
       @user_2 = User.create!(name: 'Jack', email: 'jack@email.com', password: "password1", password_confirmation: "password1")
 
+      visit root_path
+      click_on "Log In"
+      fill_in "email", with: @user_1.email
+      fill_in "password", with: @user_1.password
+      click_on "Log In"
+
       visit new_user_movie_viewing_party_path(@user_1, 1011985)
     end
 
@@ -72,7 +78,7 @@ RSpec.describe 'Viewing Party New', type: :feature do
       click_on "Create Viewing Party"
 
       expect(current_path).to eq(user_path(@user_1))
-      expect(page).to have_content("Home\nTommy's Dashboard\nParties You're Hosting\nMovie Title: Kung Fu Panda 4\nParty Time: 4/4/24 at 5:00PM\nHost: Tommy\nWho's Coming?\nTommy Jack\nParties You're a Guest")
+      expect(page).to have_content("Home\nTommy's Dashboard\nLog Out\nLocation:\nParties You're Hosting\nMovie Title: Kung Fu Panda 4\nParty Time: 4/4/24 at 5:00PM\nHost: Tommy\nWho's Coming?\nTommy Jack\nParties You're a Guest")
     end
 
     it 'will show the viewing party on the index of page of guests that were invited to the party' do
@@ -84,7 +90,7 @@ RSpec.describe 'Viewing Party New', type: :feature do
 
       visit user_path(@user_2)
 
-      expect(page).to have_content("Home\nJack's Dashboard\nParties You're Hosting\nParties You're a Guest\nMovie Title: Kung Fu Panda 4 Party Time: 4/4/24 at 5:00PM Host: Tommy Who's Coming?\nTommy Jack")
+      expect(page).to have_content("Home\nJack's Dashboard\nLog Out\nLocation:\nParties You're Hosting\nParties You're a Guest\nMovie Title: Kung Fu Panda 4 Party Time: 4/4/24 at 5:00PM Host: Tommy Who's Coming?\nTommy Jack")
     end
   end
 end

@@ -41,5 +41,20 @@ RSpec.describe 'User Login', type: :feature do
       # And I can see a flash message telling me that I entered incorrect credentials. 
       expect(page).to have_content("Incorrect email or password")
     end
+
+    it 'can leave the page after logging in and return to find themselves still logged in' do
+      # As a user when I log in successfully
+      visit "/"
+      click_on "Log In"
+      fill_in "email", with: @user_1.email
+      fill_in "password", with: @user_1.password
+      click_on "Log In"
+      # and then leave the website and navigate to a different website entirely,
+      visit "https://www.google.com"
+      # Then when I return to *this* website,
+      visit "/" 
+      # I see that I am still logged in.
+      expect(page).to have_content("Welcome, #{@user_1.name}!")
+    end
   end
 end

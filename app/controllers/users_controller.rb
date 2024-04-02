@@ -5,37 +5,25 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
-    @facade = MovieFacade.new
+    if session[:user_id]
+      @user = User.find(params[:id])
+      @facade = MovieFacade.new
+    else
+      flash[:error] = "You must be logged in or registered to access a user's dashboard"
+      redirect_to root_path
+    end
   end
 
   def create
     user = User.new(user_params)
     if user.save
-      flash[:success] = 'Successfully Created New User'
+      flash[:success] = "Successfully Created New User"
+      session[:user_id] = user.id
       redirect_to user_path(user)
     else
       flash[:error] = "#{error_message(user.errors)}"
       redirect_to register_user_path
     end   
-  end
-
-  def login_form
-  end
-
-  def login
-    # should move this to some sort of error handling/rescue clause to keep controller lighter
-    if user = User.find_by(email: params[:email])
-      if user.authenticate(params[:password])
-        redirect_to user_path(user)
-      else
-        render :login_form
-        flash[:error] = "Incorrect email or password"
-      end
-    else
-      render :login_form
-      flash[:error] = "Incorrect email or password"
-    end
   end
 
 private

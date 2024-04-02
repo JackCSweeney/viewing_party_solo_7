@@ -1,5 +1,6 @@
 <h1><%= "#{@user.name}'s Dashboard" %></h1><br>
-
+<%= link_to "Log Out", "/", method: :delete %>
+<h3>Location: <%= cookies.encrypted[:location] if cookies[:location] %></h3>
 <h2>Parties You're Hosting</h2>
 <% @user.viewing_parties.each do |party| %>
   <% if party.find_host == @user %>
