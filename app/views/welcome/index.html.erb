@@ -1,4 +1,6 @@
-
+<% if @user %>
+<h2>Welcome, <%= @user.name%>!</h2>
+<% end %>
 <h1>Viewing Party</h1>
 
 <h2>Existing Users</h2>
@@ -7,6 +9,7 @@
       <li><%= link_to user.email, "users/#{user.id}" %></li>
    <% end %>
 </ul>
-
-<%= button_to 'Create New User', register_user_path, method: :get, class: "btn btn-lg btn-outline-secondary" %><br>
-<%= link_to 'Log In', "/login" %><br>
+<% unless @user %>
+   <%= button_to 'Create New User', register_user_path, method: :get, class: "btn btn-lg btn-outline-secondary" %><br>
+   <%= link_to 'Log In', "/login" %><br>
+<% end %>
