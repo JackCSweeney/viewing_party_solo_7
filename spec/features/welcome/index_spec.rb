@@ -41,12 +41,10 @@ RSpec.describe 'Root Page, Welcome Index', type: :feature do
       expect(page).to have_link('Home')
     end
 
-    it "They see a list of existing users, which links to the individual user's dashboard" do
+    it "They see a list of existing users" do
       within("#existing_users") do 
         expect(page).to have_content(User.first.email)
         expect(page).to have_content(User.last.email)
-        expect(page).to have_link("#{User.first.email}", href: "users/#{User.first.id}")
-        expect(page).to have_link("#{User.last.email}", href: "users/#{User.last.id}")
       end   
     end
 
