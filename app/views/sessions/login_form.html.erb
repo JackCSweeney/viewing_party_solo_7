@@ -3,5 +3,11 @@
   <%= form.text_field :email %>
   <%= form.label :password, "Password:" %>
   <%= form.text_field :password %>
+  <%= form.label :location, "Location:"%>
+  <% if cookies.encrypted[:location] %>
+    <%= form.text_field :location, value: "#{cookies.encrypted[:location]}" %>
+  <% else %>
+    <%= form.text_field :location %>
+  <% end %>
   <%= form.submit "Log In" %>
 <% end %>
