@@ -5,14 +5,19 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
-    @facade = MovieFacade.new
+    if session[:user_id]
+      @user = User.find(params[:id])
+      @facade = MovieFacade.new
+    else
+      flash[:error] = "You must be logged in or registered to access a user's dashboard"
+      redirect_to root_path
+    end
   end
 
   def create
     user = User.new(user_params)
     if user.save
-      flash[:success] = 'Successfully Created New User'
+      flash[:success] = "Successfully Created New User"
       redirect_to user_path(user)
     else
       flash[:error] = "#{error_message(user.errors)}"
