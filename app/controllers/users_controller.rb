@@ -24,12 +24,17 @@ class UsersController < ApplicationController
   end
 
   def login
-    user = User.find_by(email: params[:email])
-    if user.authenticate(params[:password])
-      redirect_to user_path(user)
+    # should move this to some sort of error handling/rescue clause to keep controller lighter
+    if user = User.find_by(email: params[:email])
+      if user.authenticate(params[:password])
+        redirect_to user_path(user)
+      else
+        render :login_form
+        flash[:error] = "Incorrect email or password"
+      end
     else
-      flash[:error] = "Incorrect email or password"
       render :login_form
+      flash[:error] = "Incorrect email or password"
     end
   end
 
