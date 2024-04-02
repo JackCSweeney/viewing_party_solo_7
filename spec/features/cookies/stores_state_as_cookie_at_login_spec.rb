@@ -22,7 +22,6 @@ RSpec.describe "User Cookies" do
     # Then, when I log out and return to the login page
     click_on "Log Out"
     click_on "Log In"
-    save_and_open_page
     # I still see my location that I entered previously
     # already typed into the Location field. 
     expect(page).to have_field("location", with: "Los Angeles, CA") 
