@@ -41,6 +41,12 @@ RSpec.describe 'ViewingParties Show Page', type: :feature do
 
       @user_1 = User.create!(name: 'Tommy', email: 'tommy@email.com', password: "password1", password_confirmation: "password1")
       @user_2 = User.create!(name: 'Jack', email: 'jack@email.com', password: "password1", password_confirmation: "password1") 
+
+      visit root_path
+      click_on "Log In"
+      fill_in "email", with: @user_1.email
+      fill_in "password", with: @user_1.password
+      click_on "Log In"
       
       visit new_user_movie_viewing_party_path(@user_1, 597)
 

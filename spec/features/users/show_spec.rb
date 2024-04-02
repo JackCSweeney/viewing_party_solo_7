@@ -33,6 +33,12 @@ RSpec.describe 'Users Show Page', type: :feature do
             }).
           to_return(status: 200, body: json_response, headers: {})
 
+      visit root_path
+      click_on "Log In"
+      fill_in "email", with: @user_1.email
+      fill_in "password", with: @user_1.password
+      click_on "Log In"
+
       visit new_user_movie_viewing_party_path(@user_1, 1011985)
       fill_in "duration", with: 98
       fill_in "date", with: "4/4/24"
